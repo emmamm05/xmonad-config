@@ -1,0 +1,10 @@
+resolver: lts-15.11
+packages:
+  - xmonad-git
+  - xmonad-contrib-git
+  - xmonad-extras-git
+  - xmonad-wallpaper-git
+extra-deps:
+  - magic-1.1
+flags: {}
+extra-package-dbs: []

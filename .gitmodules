@@ -1,0 +1,15 @@
+[submodule "xmonad"]
+	path = xmonad-git
+	url = https://github.com/xmonad/xmonad
+[submodule "xmonad-contrib"]
+	path = xmonad-contrib-git
+	url = https://github.com/xmonad/xmonad-contrib
+[submodule "xmonad-extras"]
+	path = xmonad-extra-git
+	url = https://github.com/xmonad/xmonad-extras.git
+[submodule "xmobar"]
+	path = xmobar-git
+	url = https://github.com/jaor/xmobar
+[submodule "xmonad-wallpaper"]
+	path = xmonad-wallpaper-git
+	url = https://github.com/emmamm05/xmonad-wallpaper

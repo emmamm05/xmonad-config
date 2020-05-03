@@ -9,11 +9,14 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
+import XMonad.Wallpaper
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Spiral
+import XMonad.Layout.Spacing
 import XMonad.Layout.Tabbed
 import XMonad.Layout.ThreeColumns
+import XMonad.Layout.SimpleFloat
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import Graphics.X11.ExtraTypes.XF86
@@ -40,7 +43,10 @@ myScreenshot = "screenshot"
 
 -- The command to use as a launcher, to launch commands that don't have
 -- preset keybindings.
-myLauncher = "$(yeganesh -x -- -fn 'monospace-8' -nb '#000000' -nf '#FFFFFF' -sb '#7C7C7C' -sf '#CEFFAC')"
+-- myLauncher = "$(yeganesh -x -- -fn 'hack-14' -nb '#000000' -nf '#FFFFFF' -sb '#7C7C7C' -sf '#CEFFAC')"
+-- myLauncher = "dmenu_run -b -nb black"
+-- myLauncher = "rofi -combi-modi window,drun,ssh -theme Arc-Dark -font \"hack 14\" -show combi"
+myLauncher = "dmenu_run -nb '#222831' -nf '#A6B5C5' -sb '#7C7C7C' -sf '#CEFFAC' -fn 'hack-10'"
 
 -- Location of your xmobar.hs / xmobarrc
 myXmobarrc = "~/.xmonad/xmobar-single.hs"
@@ -50,8 +56,13 @@ myXmobarrc = "~/.xmonad/xmobar-single.hs"
 -- Workspaces
 -- The default number of workspaces (virtual screens) and their names.
 --
-myWorkspaces = ["1:term","2:web","3:code","4:vm","5:media"] ++ map show [6..9]
-
+myWorkspaces = [
+  "1:start",
+  "2:web",
+  "3:editor",
+  "4:editor",
+  "5:media",
+  "6:logs"] ++ map show [6..9]
 
 ------------------------------------------------------------------------
 -- Window rules
@@ -68,19 +79,13 @@ myWorkspaces = ["1:term","2:web","3:code","4:vm","5:media"] ++ map show [6..9]
 -- 'className' and 'resource' are used below.
 --
 myManageHook = composeAll
-    [ className =? "Chromium"       --> doShift "2:web"
-    , className =? "Google-chrome"  --> doShift "2:web"
+    [ className =? "Google-chrome"  --> doShift "2:web"
+    , className =? "firefox"        --> doShift "2:web"
+    , className =? "emacs@ark"      --> doShift "4:emacs"
     , resource  =? "desktop_window" --> doIgnore
     , className =? "Galculator"     --> doFloat
-    , className =? "Steam"          --> doFloat
-    , className =? "Gimp"           --> doFloat
-    , resource  =? "gpicview"       --> doFloat
-    , className =? "MPlayer"        --> doFloat
-    , className =? "VirtualBox"     --> doShift "4:vm"
-    , className =? "Xchat"          --> doShift "5:media"
     , className =? "stalonetray"    --> doIgnore
     , isFullscreen --> (doF W.focusDown <+> doFullFloat)]
-
 
 ------------------------------------------------------------------------
 -- Layouts
@@ -93,12 +98,13 @@ myManageHook = composeAll
 -- which denotes layout choice.
 --
 myLayout = avoidStruts (
-    ThreeColMid 1 (3/100) (1/2) |||
+    spacing 5 $ ThreeColMid 1 (1/100) (1/2) |||
     Tall 1 (3/100) (1/2) |||
     Mirror (Tall 1 (3/100) (1/2)) |||
     tabbed shrinkText tabConfig |||
     Full |||
     spiral (6/7)) |||
+    simpleFloat |||
     noBorders (fullscreenFull Full)
 
 
@@ -336,7 +342,6 @@ myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
 -- > logHook = dynamicLogDzen
 --
 
-
 ------------------------------------------------------------------------
 -- Startup hook
 -- Perform an arbitrary action each time xmonad starts or is restarted
@@ -352,6 +357,7 @@ myStartupHook = return ()
 --
 main = do
   xmproc <- spawnPipe ("xmobar " ++ myXmobarrc)
+  setRandomWallpaper ["$HOME/Pictures/Wallpapers"]
   xmonad $ defaults {
       logHook = dynamicLogWithPP $ xmobarPP {
             ppOutput = hPutStrLn xmproc

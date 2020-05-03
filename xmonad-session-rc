@@ -23,15 +23,13 @@ feh --bg-fill ~/.wallpaper.jpg &
 stalonetray -c ~/.xmonad/stalonetrayrc-single &
 
 # Start two terminals
-gnome-terminal &
-gnome-terminal &
 
 # Start a browser
-google-chrome &
+# google-chrome &
 
 # Start screensaver
-killall gnome-screensaver &
-xscreensaver -no-splash &
+# killall gnome-screensaver &
+# xscreensaver -no-splash &
 
 # Start sound server
 pulseaudio --start --log-target=syslog &
