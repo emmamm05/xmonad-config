@@ -357,6 +357,8 @@ myStartupHook = return ()
 --
 main = do
   xmproc <- spawnPipe ("xmobar " ++ myXmobarrc)
+  spawn "alacritty"
+  spawn "google-chrome-stable"
   setRandomWallpaper ["$HOME/Pictures/Wallpapers"]
   xmonad $ defaults {
       logHook = dynamicLogWithPP $ xmobarPP {
