@@ -9,6 +9,7 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
+import XMonad.Actions.SpawnOn
 import XMonad.Wallpaper
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
@@ -57,12 +58,13 @@ myXmobarrc = "~/.xmonad/xmobar-single.hs"
 -- The default number of workspaces (virtual screens) and their names.
 --
 myWorkspaces = [
-  "1:start",
-  "2:web",
-  "3:editor",
-  "4:chat",
-  "5:media",
-  "6:logs"] ++ map show [6..9]
+  "start",
+  "emacs",
+  "web",
+  "editor",
+  "chat",
+  "media",
+  "logs"] ++ map show [6..9]
 
 ------------------------------------------------------------------------
 -- Window rules
@@ -79,13 +81,14 @@ myWorkspaces = [
 -- 'className' and 'resource' are used below.
 --
 myManageHook = composeAll
-    [ className =? "Google-chrome"  --> doShift "2:web"
-    , className =? "firefox"        --> doShift "2:web"
-    , className =? "emacs@ark"      --> doShift "1:start"
+    [ className =? "Google-chrome"  --> doShift "web"
+    , className =? "firefox"        --> doShift "web"
+    , className =? "Emacs"          --> doShift "emacs"
+    , className =? "Code"           --> doShift "editor"
     , resource  =? "desktop_window" --> doIgnore
     , className =? "Galculator"     --> doFloat
-    , className =? "discord"        --> doShift "4:chat"
-    , className =? "Keybase"        --> doShift "4:chat"
+    , className =? "discord"        --> doShift "chat"
+    , className =? "Keybase"        --> doShift "chat"
     , className =? "stalonetray"    --> doIgnore
     , isFullscreen --> (doF W.focusDown <+> doFullFloat)]
 
@@ -359,11 +362,6 @@ myStartupHook = return ()
 --
 main = do
   xmproc <- spawnPipe ("xmobar " ++ myXmobarrc)
-  spawn "alacritty"
-  spawn "emacs"
-  spawn "google-chrome-stable"
-  spawn "discord"
-  spawn "run_keybase"
   setRandomWallpaper ["$HOME/Pictures/Wallpapers"]
   xmonad $ defaults {
       logHook = dynamicLogWithPP $ xmobarPP {
@@ -372,9 +370,15 @@ main = do
           , ppCurrent = xmobarColor xmobarCurrentWorkspaceColor ""
           , ppSep = "   "
       }
-      , manageHook = manageDocks <+> myManageHook
---      , startupHook = docksStartupHook <+> setWMName "LG3D"
-      , startupHook = setWMName "LG3D"
+      , manageHook = manageSpawn <+> manageDocks <+> myManageHook
+      , startupHook = do 
+            setWMName "SAMSUNG-4K"
+            spawn "emacs"
+            spawn "google-chrome-stable"
+            spawn "discord"
+            spawn "run_keybase"
+            spawn "code"
+            spawnOn "emacs" "alacritty"
       , handleEventHook = docksEventHook
   }
 
