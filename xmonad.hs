@@ -60,7 +60,7 @@ myWorkspaces = [
   "1:start",
   "2:web",
   "3:editor",
-  "4:editor",
+  "4:chat",
   "5:media",
   "6:logs"] ++ map show [6..9]
 
@@ -81,9 +81,11 @@ myWorkspaces = [
 myManageHook = composeAll
     [ className =? "Google-chrome"  --> doShift "2:web"
     , className =? "firefox"        --> doShift "2:web"
-    , className =? "emacs@ark"      --> doShift "4:emacs"
+    , className =? "emacs@ark"      --> doShift "1:start"
     , resource  =? "desktop_window" --> doIgnore
     , className =? "Galculator"     --> doFloat
+    , className =? "discord"        --> doShift "4:chat"
+    , className =? "Keybase"        --> doShift "4:chat"
     , className =? "stalonetray"    --> doIgnore
     , isFullscreen --> (doF W.focusDown <+> doFullFloat)]
 
@@ -360,6 +362,8 @@ main = do
   spawn "alacritty"
   spawn "emacs"
   spawn "google-chrome-stable"
+  spawn "discord"
+  spawn "run_keybase"
   setRandomWallpaper ["$HOME/Pictures/Wallpapers"]
   xmonad $ defaults {
       logHook = dynamicLogWithPP $ xmobarPP {
