@@ -5,8 +5,8 @@
 	path = xmonad-contrib-git
 	url = https://github.com/xmonad/xmonad-contrib
 [submodule "xmonad-extras"]
-	path = xmonad-extra-git
-	url = https://github.com/xmonad/xmonad-extras.git
+	path = xmonad-extras-git
+	url = https://github.com/xmonad/xmonad-extras
 [submodule "xmobar"]
 	path = xmobar-git
 	url = https://github.com/jaor/xmobar

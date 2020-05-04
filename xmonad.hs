@@ -378,6 +378,7 @@ main = do
             spawn "discord"
             spawn "run_keybase"
             spawn "code"
+            spawn "dunst"
             spawnOn "emacs" "alacritty"
       , handleEventHook = docksEventHook
   }
