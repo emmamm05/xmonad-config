@@ -52,19 +52,46 @@ myLauncher = "dmenu_run -nb '#222831' -nf '#A6B5C5' -sb '#7C7C7C' -sf '#CEFFAC' 
 -- Location of your xmobar.hs / xmobarrc
 myXmobarrc = "~/.xmonad/xmobar-single.hs"
 
+------------------------------------------------------------------------
+-- Colors and borders
+-- Currently based on the ir_black theme.
+--
+myNormalBorderColor  = "#7c7c7c"
+myFocusedBorderColor = "#ffb6b0"
+
+-- Colors for text and backgrounds of each tab when in "Tabbed" layout.
+tabConfig = defaultTheme {
+    activeBorderColor = "#7C7C7C",
+    activeTextColor = "#CEFFAC",
+    activeColor = "#000000",
+    inactiveBorderColor = "#7C7C7C",
+    inactiveTextColor = "#EEEEEE",
+    inactiveColor = "#000000"
+}
+
+-- Color of current window title in xmobar.
+xmobarTitleColor = "#FFB6B0"
+
+-- Color of current workspace in xmobar.
+xmobarCurrentWorkspaceColor = "#CEFFAC"
+
+-- Width of the window border in pixels.
+myBorderWidth = 5
+
+-- Spacing between windows.
+mySpacing = 5
 
 ------------------------------------------------------------------------
 -- Workspaces
 -- The default number of workspaces (virtual screens) and their names.
 --
 myWorkspaces = [
-  "start",
-  "emacs",
   "web",
+  "emacs",
   "editor",
   "chat",
   "media",
-  "logs"] ++ map show [6..9]
+  "logs"] ++ map show [7..9]
 
 ------------------------------------------------------------------------
 -- Window rules
@@ -103,7 +130,7 @@ myManageHook = composeAll
 -- which denotes layout choice.
 --
 myLayout = avoidStruts (
-    spacing 5 $ ThreeColMid 1 (1/100) (1/2) |||
+    spacing mySpacing $ ThreeColMid 1 (1/100) (1/2) |||
     Tall 1 (3/100) (1/2) |||
     Mirror (Tall 1 (3/100) (1/2)) |||
     tabbed shrinkText tabConfig |||
@@ -111,34 +138,6 @@ myLayout = avoidStruts (
     spiral (6/7)) |||
     simpleFloat |||
     noBorders (fullscreenFull Full)
-
-
-------------------------------------------------------------------------
--- Colors and borders
--- Currently based on the ir_black theme.
---
-myNormalBorderColor  = "#7c7c7c"
-myFocusedBorderColor = "#ffb6b0"
-
--- Colors for text and backgrounds of each tab when in "Tabbed" layout.
-tabConfig = defaultTheme {
-    activeBorderColor = "#7C7C7C",
-    activeTextColor = "#CEFFAC",
-    activeColor = "#000000",
-    inactiveBorderColor = "#7C7C7C",
-    inactiveTextColor = "#EEEEEE",
-    inactiveColor = "#000000"
-}
-
--- Color of current window title in xmobar.
-xmobarTitleColor = "#FFB6B0"
-
--- Color of current workspace in xmobar.
-xmobarCurrentWorkspaceColor = "#CEFFAC"
-
--- Width of the window border in pixels.
-myBorderWidth = 1
-
 
 ------------------------------------------------------------------------
 -- Key bindings
