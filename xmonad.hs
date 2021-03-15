@@ -46,8 +46,9 @@ myScreenshot = "screenshot"
 -- preset keybindings.
 -- myLauncher = "$(yeganesh -x -- -fn 'hack-14' -nb '#000000' -nf '#FFFFFF' -sb '#7C7C7C' -sf '#CEFFAC')"
 -- myLauncher = "dmenu_run -b -nb black"
--- myLauncher = "rofi -combi-modi window,drun,ssh -theme Arc-Dark -font \"hack 14\" -show combi"
-myLauncher = "dmenu_run -nb '#222831' -nf '#A6B5C5' -sb '#7C7C7C' -sf '#CEFFAC' -fn 'hack-10'"
+-- myLauncher = "rofi -combi-modi window,drun,ssh -theme ~/.local/share/rofi/themes/dracula -font \"hack 20\" -show combi"
+myLauncher = "~/.config/rofi/launchers/text/launcher.sh"
+-- myLauncher = "dmenu_run -nb '#222831' -nf '#A6B5C5' -sb '#7C7C7C' -sf '#CEFFAC' -fn 'hack-10'"
 
 -- Location of your xmobar.hs / xmobarrc
 myXmobarrc = "~/.xmonad/xmobar-single.hs"
@@ -293,7 +294,13 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   -- Restart xmonad.
   , ((modMask, xK_q),
      restart "xmonad" True)
+
+  -- Emacs new frame
+  , ((mod4Mask, xK_e),
+    spawn "emacsclient -c -n -e '(switch-to-buffer nil)'")
+
   ]
+
   ++
 
   -- mod-[1..9], Switch to workspace N
@@ -376,7 +383,6 @@ main = do
             spawn "google-chrome-stable"
             spawn "discord"
             spawn "run_keybase"
-            spawn "code"
             spawn "dunst"
             spawnOn "emacs" "alacritty"
       , handleEventHook = docksEventHook
