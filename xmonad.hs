@@ -77,10 +77,10 @@ xmobarTitleColor = "#FFB6B0"
 xmobarCurrentWorkspaceColor = "#CEFFAC"
 
 -- Width of the window border in pixels.
-myBorderWidth = 5
+myBorderWidth = 7
 
 -- Spacing between windows.
-mySpacing = 5
+mySpacing = 10
 
 ------------------------------------------------------------------------
 -- Workspaces
